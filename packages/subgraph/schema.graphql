@@ -1,0 +1,58 @@
+type Registry @entity {
+  id: ID!
+  baseTokens: [TokenMeta!]!
+  orderTokens: [TokenMeta!]!
+}
+
+type User @entity {
+  id: ID!
+  accounts: [Account!]! @derivedFrom(field: "owner")
+}
+
+type Account @entity {
+  id: ID!
+  owner: User!
+  pool: Pool!
+  qtyPerCycle: BigInt!
+  createdAt: BigInt!
+  modifiedAt: BigInt!
+  baseTokenDeposit: BigInt!
+  accruedOrderTokenBalance: BigInt!
+  startCycle: BigInt!
+  endCycle: BigInt!
+}
+
+type Pool @entity {
+  id: ID!
+  baseToken: TokenMeta!
+  orderToken: TokenMeta!
+  period: BigInt!
+  lastExecution: BigInt!
+  lastPrice: BigDecimal!
+  nextExecution: BigInt!
+  totalQuantitySpent: BigInt!
+  totalQuantityPurchased: BigInt!
+  totalAveragePrice: BigDecimal!
+  totalCost: BigInt!
+  currentCycle: BigInt!
+  cumulativeIndexes: [BigDecimal!]!
+  maxValue: BigInt!
+  minValue: BigInt!
+  scalingFactor: BigInt!
+}
+
+type TokenMeta @entity {
+  id: ID!
+  symbol: String!
+  decimals: BigInt!
+}
+
+enum Period {
+  NONE
+  HOURLY
+  DAILY
+  WEEKLY
+  FORTNIGHTLY
+  MONTHLY
+  QUARTERLY
+}

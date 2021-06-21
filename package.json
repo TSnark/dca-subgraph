@@ -1,0 +1,27 @@
+{
+  "name": "@project/dca-frontend",
+  "version": "1.0.0",
+  "keywords": [
+    "ethereum",
+    "react",
+    "workspaces",
+    "yarn"
+  ],
+  "private": true,
+  "scripts": {
+    "subgraph:auth": "yarn workspace @project/subgraph auth",
+    "subgraph:codegen": "yarn workspace @project/subgraph codegen",
+    "subgraph:build": "yarn workspace @project/subgraph build",
+    "subgraph:deploy": "yarn workspace @project/subgraph deploy",
+    "subgraph:deploy-local": "yarn workspace @project/subgraph deploy-local"
+  },
+  "workspaces": {
+    "nohoist": [
+      "**/@graphprotocol/graph-ts",
+      "**/@graphprotocol/graph-ts/**"
+    ],
+    "packages": [
+      "packages/*"
+    ]
+  }
+}

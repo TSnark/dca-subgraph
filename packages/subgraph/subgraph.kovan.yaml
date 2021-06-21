@@ -1,0 +1,75 @@
+specVersion: 0.0.2
+description: Tonic Swirl on Kovan
+repository: https://github.com/tonic-finance/swirl-frontend
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: DCAPoolFactory
+    network: kovan
+    source:
+      address: "0xf8C097511cCeF7e7549f7d85784052881710Ac4e"
+      startBlock: 23721178
+      abi: DCAPoolFactory
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - DCAPool
+      abis:
+        - name: DCAPoolFactory
+          file: ../contracts/src/abis/DCAPoolFactory.json
+        - name: ERC20
+          file: ../contracts/src/abis/ERC20.json
+      eventHandlers:
+        - event: PoolCreated(indexed address,indexed address,uint8,uint256,address)
+          handler: handleNewPool
+        - event: BaseTokenEnabled(address)
+          handler: handleNewBaseToken
+        - event: OrderTokenEnabled(address)
+          handler: handleNewOrderToken
+      file: ./src/factory.ts
+  - kind: ethereum/contract
+    name: DCAScheduler
+    network: kovan
+    source:
+      address: "0xF59E9ddBd1Bb49C990DB47db6fbE170A2387A43b"
+      abi: DCAScheduler
+      startBlock: 23721178
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - DCAPool
+        - User
+        - Account
+      abis:
+        - name: DCAScheduler
+          file: ../contracts/src/abis/DCAScheduler.json
+      eventHandlers:
+        - event: PoolEvaluated(address,uint256,uint256,uint256,uint256)
+          handler: handlePoolEvaluated
+      file: ./src/pool.ts
+templates:
+  - name: DCAPool
+    kind: ethereum/contract
+    network: kovan
+    source:
+      abi: DCAVault
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.1
+      language: wasm/assemblyscript
+      file: ./src/pool.ts
+      entities:
+        - DCAPool
+        - User
+        - Account
+      abis:
+        - name: DCAVault
+          file: ../contracts/src/abis/DCAVault.json
+      eventHandlers:
+        - event: AccountModified(address,uint256,uint256,uint256,uint256)
+          handler: handleAccountModified

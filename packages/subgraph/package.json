@@ -1,0 +1,21 @@
+{
+  "name": "@project/subgraph",
+  "version": "1.0.0",
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.19.0",
+    "@graphprotocol/graph-ts": "0.19.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-register": "^6.26.0"
+  },
+  "license": "MIT",
+  "scripts": {
+    "auth": "graph auth https://api.thegraph.com/ $GRAPH_ACCESS_TOKEN",
+    "create": "graph create tonic-finance/swirl-frontend  --node https://api.thegraph.com/deploy/",
+    "create-local": "graph create tonic-finance/swirl-frontend  --node http://127.0.0.1:8020",
+    "build": "graph build",
+    "codegen": "graph codegen",
+    "deploy": "graph deploy tonic-finance/swirl-frontend --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
+    "deploy-local": "graph deploy tonic-finance/swirl-frontend  --ipfs http://localhost:5001 --node http://127.0.0.1:8020 subgraph.yaml",
+    "deploy-kovan": "graph deploy --access-token 6fb8e27a00ef44b59f6935276eabfb96 --debug --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ tonic-finance/swirl-frontend-kovan subgraph.kovan.yaml"
+  }
+}
